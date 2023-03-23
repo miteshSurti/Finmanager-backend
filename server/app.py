@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 
 # from server.routes.student import router as StudentRouter
 from server.routes.user import router as UserRouter
@@ -11,6 +12,17 @@ from server.routes.wallet import router as walletRouter
 from auth.auth_bearer import JWTBearer
 
 app = FastAPI()
+
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # routes
 app.include_router(UserRouter, tags=["users"], prefix="/user")

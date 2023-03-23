@@ -19,7 +19,6 @@ def transaction_helper(transaction) -> dict:
         "_id": str(transaction["_id"]),
         "email": transaction["email"],
         "description": transaction["description"],
-        "receipt": transaction["receipt"],
         "timing": str(transaction["timing"]),
         "amount": transaction["amount"],
         "isComplete": transaction["isComplete"],

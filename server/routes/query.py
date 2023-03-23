@@ -16,9 +16,9 @@ queries = connection("queries")
 def query_helper(query) -> dict:
     return {
         "email": query["email"],
+        "title": query["title"],
         "timing": str(query["timing"]),
         "description": query["description"],
-        "images": query["images"],
     }
 
 

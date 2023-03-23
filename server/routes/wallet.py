@@ -51,8 +51,8 @@ async def retrieve_all():
 async def update_wallet(email: str, data: dict):
     if len(data) < 1:
         return False
-    wallet = await wallet.find_one({"email": email})
-    if wallet:
+    w = await wallet.find_one({"email": email})
+    if w:
         updated_wallet = await wallet.update_one({"email": email}, {"$set": data})
         if updated_wallet:
             return True
@@ -63,9 +63,9 @@ router = APIRouter()
 
 
 @router.post("/", response_description="wallet added")
-async def addquery(wallet: Wallet = Body(...)):
-    wallet = jsonable_encoder(wallet)
-    newquery = await add_wallet(wallet)
+async def addquery(w: Wallet = Body(...)):
+    w = jsonable_encoder(w)
+    newquery = await add_wallet(w)
     if newquery:
         return ResponseModel(True, "wallet added successfully!")
     else:
@@ -82,8 +82,8 @@ async def getwallet(email: EmailStr):
 
 @router.get("/all/")
 async def getAll():
-    wallet = await retrieve_all()
-    if wallet:
+    w = await retrieve_all()
+    if w:
         return ResponseModel(wallet, "wallet data retrieved successfully")
     return ErrorResponseModel("Error", 404, "wallet does not exist")
 
@@ -91,7 +91,7 @@ async def getAll():
 @router.put("/{email}", dependencies=[Depends(JWTBearer())])
 async def retrivequery(email: EmailStr, data: updateWallet = Body(...)):
     data = {k: v for k, v in data.dict().items() if v is not None}
-    wallet = await update_wallet(email, data)
-    if wallet:
-        return ResponseModel(wallet, "wallet data updates successfully")
+    w = await update_wallet(email, data)
+    if w:
+        return ResponseModel(w, "wallet data updates successfully")
     return ErrorResponseModel("Error", 403, "wallet does not exist")
